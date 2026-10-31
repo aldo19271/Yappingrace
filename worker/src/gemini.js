@@ -22,7 +22,7 @@ function cleanList(list) {
 export async function generateWords(env, n) {
   if (!env.GEMINI_API_KEY) return { words: fallbackWords(n), source: 'fallback' };
 
-  const model = env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const model = env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
   const prompt =
     `Berikan ${n} kata bahasa Indonesia yang acak dan umum dipakai sehari-hari. ` +
     'Aturan: huruf kecil semua, tanpa tanda baca, tanpa angka, tanpa spasi, satu kata per item, ' +
