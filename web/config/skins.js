@@ -21,6 +21,7 @@ export const SKINS = [
   { id: 'stickman_ninja', name: 'Stickman Ninja', price: 100, look: 'ninja' },
   { id: 'robot_oranye', name: 'Robot Oranye', price: 150, look: 'robot' },
   { id: 'astronot', name: 'Astronot', price: 200, look: 'astronot' },
+  { id: 'Amongus_jir', name: 'Amongus', price: 420, image: '/skins/amongus1.png' },
   // Contoh skin dengan gambar sendiri (hapus tanda // untuk mengaktifkan):
   // { id: 'skin_saya', name: 'Skin Saya', price: 120, image: '/skins/skin_saya.png' },
 ];
