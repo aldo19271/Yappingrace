@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.next/
+.env
+.env.*
+.dev.vars
+.wrangler/
+.vercel/
+.DS_Store
+*.log
+!.env.example
