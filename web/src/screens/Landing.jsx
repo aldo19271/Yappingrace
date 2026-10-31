@@ -6,7 +6,7 @@ import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from
 import { Marquee, Typewriter } from '../components/fx.jsx';
 import LogoMark from '../components/LogoMark.jsx';
 
-const WORDS = ['ngetik', 'kelasz', 'tim', 'serang', 'menang', 'kata', 'juara', 'sikat', 'tutor', 'lawan'];
+const WORDS = ['ngetik', 'kelasz', 'musuhan', 'by1', 'ez', 'yapping', 'booyah', 'sikat', 'tutor', 'empuk'];
 
 function Letters({ text, base = 0 }) {
   return text.split('').map((ch, i) => (
