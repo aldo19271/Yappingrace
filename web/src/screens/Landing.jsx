@@ -5,7 +5,7 @@ import { useApp } from '../store.jsx';
 import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from '../components/ui.jsx';
 import { Marquee, Typewriter } from '../components/fx.jsx';
 
-const WORDS = ['ngetik', 'cepat', 'tim', 'serang', 'menang', 'kata', 'juara', 'sikat', 'kompak', 'lawan'];
+const WORDS = ['ngetik', 'kelasz', 'tim', 'serang', 'menang', 'kata', 'juara', 'sikat', 'tutor', 'lawan'];
 
 function Letters({ text, base = 0 }) {
   return text.split('').map((ch, i) => (
@@ -64,7 +64,7 @@ export default function Landing() {
           </h1>
         </motion.div>
         <motion.p className="tagline" variants={itemVariants}>
-          <Typewriter text="Adu ketik tim lawan tim. Ketik lebih cepat, jatuhkan lawan." delay={900} />
+          <Typewriter text="Adu Yapping deck. Yapping lebih cepat, musuh tepar." delay={900} />
         </motion.p>
 
         <AnimatePresence mode="wait" initial={false}>
