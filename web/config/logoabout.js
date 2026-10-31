@@ -8,7 +8,7 @@
 // Isi dengan null untuk selalu memakai huruf "Y".
 // ============================================================
 
-export const LOGO_SRC = '/opoiki.png';
+export const LOGO_SRC = '/lmao.png';
 
 // Ikon kecil di tab browser. Secara default mengikuti logo di atas.
 // Isi dengan file lain (misalnya '/favicon.png') atau null untuk memakai /favicon.svg bawaan.
