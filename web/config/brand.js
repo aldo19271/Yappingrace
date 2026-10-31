@@ -8,4 +8,4 @@
 // Isi dengan null untuk selalu memakai huruf "Y".
 // ============================================================
 
-export const LOGO_SRC = '/logo.png';
+export const LOGO_SRC = '/opoiki.png';
