@@ -13,8 +13,8 @@
 // ============================================================
 
 export const SOUNDS = {
-  click: { src: '/sounds/click.mp3', volume: 0.6 },
-  attack: { src: '/sounds/attack.mp3', volume: 0.7 },
-  win: { src: '/sounds/win.mp3', volume: 0.9 },
-  lose: { src: '/sounds/lose.mp3', volume: 0.9 },
+  click: { src: '/sounds/click.mp3', volume: 1 },
+  attack: { src: '/sounds/attack.mp3', volume: 1 },
+  win: { src: '/sounds/win.mp3', volume: 1 },
+  lose: { src: '/sounds/lose.mp3', volume: 1 },
 };
