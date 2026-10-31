@@ -6,9 +6,9 @@
 // ============================================================
 
 export const ABOUT = {
-  name: 'YappingRace',
+  name: 'AduYapping',
   version: '1.1.0',
-  tagline: 'Game adu ketik multiplayer.',
+  tagline: 'cuman game yapping biasa ajg.',
   links: [
     { id: 'instagram', label: 'Instagram', sub: 'Ikuti di Instagram', url: 'https://www.instagram.com/', icon: 'camera' },
     { id: 'github', label: 'Repo GitHub', sub: 'aldo19271/Yappingrace', url: 'https://github.com/aldo19271/Yappingrace', icon: 'code' },
