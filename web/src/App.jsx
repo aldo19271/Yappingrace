@@ -11,6 +11,7 @@ import Leaderboard from './screens/Leaderboard.jsx';
 import Room from './screens/Room.jsx';
 import Game from './screens/Game.jsx';
 import About from './screens/About.jsx';
+import SettingsScreen from './screens/Settings.jsx';
 
 export default function App() {
   const { state } = useApp();
@@ -38,6 +39,7 @@ export default function App() {
     room: <Room key="room" />,
     game: <Game key="game" />,
     about: <About key="about" />,
+    settings: <SettingsScreen key="settings" />,
   };
 
   return (

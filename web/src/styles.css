@@ -1888,121 +1888,137 @@ p {
   padding: 5px 10px;
 }
 
-/* ---- halaman about */
-.about-hero {
+/* ---- tombol pengaturan di Menu */
+.settings-btn {
+  justify-self: end;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--dim);
+}
+
+.settings-btn:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+/* ---- halaman about (serasi dengan menu) */
+.about-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.about-card .logo-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  font-size: 32px;
+  flex: none;
+}
+
+.about-card .logo-mark:has(img) {
+  width: 72px;
+  height: 72px;
+}
+
+.about-card-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 0 4px;
+  gap: 4px;
+  min-width: 0;
 }
 
-.about-logo {
-  width: 92px;
-  height: 92px;
-  border-radius: 24px;
-  font-size: 48px;
+.about-card-text h3 {
+  font-size: 22px;
+  letter-spacing: -0.01em;
 }
 
-.about-logo:has(img) {
-  width: 104px;
-  height: 104px;
-}
-
-.about-name {
-  font-size: 30px;
-  letter-spacing: -0.02em;
+.about-card-text h3 span {
+  color: var(--orange);
 }
 
 .about-tag {
   color: var(--dim);
-  min-height: 24px;
-  text-align: center;
+  font-size: 14px;
+  min-height: 20px;
 }
 
-.about-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.version-chip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #0b0b0b;
+  background: var(--orange);
+  border-radius: 999px;
+  padding: 3px 10px;
 }
 
-.about-link {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px 16px;
-  border-radius: 18px;
-  background: var(--panel);
-  border: 2px solid var(--line);
+.section-label {
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.tile.link-tile {
   color: var(--text);
   text-decoration: none;
 }
 
-.about-link:hover {
-  border-color: var(--orange);
+.tile .tile-go {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  color: var(--dim);
 }
 
-.about-link-icon {
-  width: 46px;
-  height: 46px;
+.tile:hover .tile-go {
+  color: var(--orange);
+}
+
+/* ---- halaman pengaturan */
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.setting-icon {
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  background: var(--orange);
-  color: #0b0b0b;
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--orange);
   flex: none;
 }
 
-.about-link-text {
+.setting-text {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-width: 0;
 }
 
-.about-link-text strong {
-  font-size: 19px;
-}
-
-.about-link-text small {
+.setting-text small {
   color: var(--dim);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.about-link-go {
-  display: grid;
-  color: var(--orange);
-}
-
-.about-sound {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 18px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-}
-
-.about-sound-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.about-sound-text small {
-  color: var(--dim);
-}
-
-.version {
-  margin-top: auto;
-  text-align: center;
-  color: var(--dim);
-  font-family: var(--mono);
-  font-size: 13px;
-  padding-top: 12px;
 }

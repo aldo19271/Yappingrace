@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Coins, DoorOpen, LogOut, Lock, PlusSquare, ShoppingBag, Trophy, Volume2, VolumeX } from 'lucide-react';
+import { Coins, DoorOpen, LogOut, Lock, PlusSquare, ShoppingBag, Trophy, Settings } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import Avatar from '../components/Avatar.jsx';
 import { CountUp, Marquee, useRipple } from '../components/fx.jsx';
 import { Screen, itemVariants, listVariants } from '../components/ui.jsx';
-import { useSound } from '../lib/sound.js';
 import { DEFAULT_SKIN } from '../../config/skins.js';
 
 const TIPS = [
@@ -80,7 +79,6 @@ export default function Menu() {
   const { user, me, conn } = state;
   const name = user ? user.name : me ? me.name : 'menghubungkan...';
   const skin = user ? user.skin : DEFAULT_SKIN;
-  const [soundOn, setSoundOn] = useSound();
 
   const needLogin = (screen) =>
     user ? actions.go(screen) : actions.toast('Login dulu untuk membuka ini. Guest tidak bisa.');
@@ -105,24 +103,6 @@ export default function Menu() {
             {conn === 'online' ? 'Terhubung' : conn === 'connecting' ? 'Menyalakan server...' : 'Terputus, mencoba lagi...'}
           </small>
         </div>
-        <motion.button
-          type="button"
-          className="icon-btn"
-          aria-label={soundOn ? 'Matikan suara' : 'Nyalakan suara'}
-          onClick={() => setSoundOn(!soundOn)}
-          whileHover={{ scale: 1.12, rotate: -8 }}
-          whileTap={{ scale: 0.8 }}
-        >
-          <motion.span
-            key={soundOn ? 'on' : 'off'}
-            initial={{ scale: 0.4, rotate: -40 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 500, damping: 14 }}
-            style={{ display: 'grid' }}
-          >
-            {soundOn ? <Volume2 size={20} strokeWidth={2.5} /> : <VolumeX size={20} strokeWidth={2.5} />}
-          </motion.span>
-        </motion.button>
         {user ? (
           <motion.div className="coins" whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92, rotate: -4 }}>
             <motion.span animate={{ rotateY: [0, 360] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}>
@@ -162,7 +142,17 @@ export default function Menu() {
           <motion.button type="button" className="link" onClick={actions.logout} whileHover={{ x: 3 }} whileTap={{ scale: 0.92 }}>
             <LogOut size={16} strokeWidth={2.5} /> {user ? 'Keluar akun' : 'Kembali ke awal'}
           </motion.button>
-          <span />
+          <motion.button
+            type="button"
+            className="settings-btn"
+            aria-label="Pengaturan"
+            onClick={() => actions.go('settings')}
+            whileHover={{ rotate: 90, scale: 1.12 }}
+            whileTap={{ scale: 0.85, rotate: 180 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 14 }}
+          >
+            <Settings size={20} strokeWidth={2.5} />
+          </motion.button>
         </div>
       </motion.div>
       <Marquee words={WORDS} />
