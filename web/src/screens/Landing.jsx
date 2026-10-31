@@ -57,9 +57,9 @@ export default function Landing() {
             Y
           </motion.span>
           <h1>
-            <Letters text="Adu" base={0.15} />
+            <Letters text="Yapping" base={0.15} />
             <span className="accent">
-              <Letters text="Yapping" base={0.6} />
+              <Letters text="Race" base={0.6} />
             </span>
           </h1>
         </motion.div>
