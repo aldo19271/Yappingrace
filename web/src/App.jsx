@@ -41,7 +41,7 @@ export default function App() {
   return (
     <>
       <Backdrop calm={screen === 'game'} />
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="wait">
         {views[screen] || views.menu}
       </AnimatePresence>
       <Toast />

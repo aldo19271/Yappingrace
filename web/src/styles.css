@@ -1673,3 +1673,23 @@ p {
     animation: none !important;
   }
 }
+
+/* ---- logo dari file */
+.logo-mark {
+  overflow: hidden;
+}
+
+.logo-mark:has(img) {
+  width: 64px;
+  height: 64px;
+  background: transparent;
+  overflow: visible;
+}
+
+.logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}

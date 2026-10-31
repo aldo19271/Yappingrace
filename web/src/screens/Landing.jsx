@@ -4,6 +4,7 @@ import { LogIn, UserPlus, User } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from '../components/ui.jsx';
 import { Marquee, Typewriter } from '../components/fx.jsx';
+import LogoMark from '../components/LogoMark.jsx';
 
 const WORDS = ['ngetik', 'kelasz', 'tim', 'serang', 'menang', 'kata', 'juara', 'sikat', 'tutor', 'lawan'];
 
@@ -54,7 +55,7 @@ export default function Landing() {
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             whileTap={{ rotate: 360, scale: 1.2 }}
           >
-            Y
+            <LogoMark />
           </motion.span>
           <h1>
             <Letters text="Adu" base={0.15} />
@@ -67,7 +68,7 @@ export default function Landing() {
           <Typewriter text="Adu Yapping deck. Yapping lebih cepat, musuh tepar." delay={900} />
         </motion.p>
 
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           {mode === null ? (
             <motion.div
               key="choose"
