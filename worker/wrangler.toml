@@ -19,7 +19,7 @@ new_sqlite_classes = ["Lobby", "Room"]
 # Alamat web di Vercel (tanpa garis miring di akhir). WAJIB diisi setelah web ter-deploy.
 API_URL = ""
 # Model Gemini. Cek nama model yang masih aktif di Google AI Studio jika kata tidak terbuat.
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-3.5-flash-lite"
 # Opsional: batasi origin yang boleh konek, pisahkan koma. Contoh: https://yappingrace.vercel.app
 # Kosongkan untuk mengizinkan semua.
 ALLOWED_ORIGINS = ""
