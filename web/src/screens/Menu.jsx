@@ -81,7 +81,7 @@ export default function Menu() {
   const skin = user ? user.skin : DEFAULT_SKIN;
 
   const needLogin = (screen) =>
-    user ? actions.go(screen) : actions.toast('Login dulu untuk membuka ini. Guest tidak bisa.');
+    user ? actions.go(screen) : actions.toast('Login dulu ajg biar kebuka.');
 
   return (
     <Screen>
