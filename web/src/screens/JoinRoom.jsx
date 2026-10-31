@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Hash, Lock, Users } from 'lucide-react';
+import { Hash, Lock, Radio, Users } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import { Button, Field, Modal, PasswordField, Screen, TopBar, itemVariants, listVariants } from '../components/ui.jsx';
 
@@ -28,6 +28,10 @@ export default function JoinRoom() {
       <Button variant="ghost" icon={Hash} onClick={() => setCodeOpen(true)}>
         Join Room Dengan Kode
       </Button>
+
+      <div className="live">
+        <i /> Room aktif ({state.rooms.length})
+      </div>
 
       <motion.div className="list" variants={listVariants} initial="initial" animate="animate" key="list">
         <AnimatePresence initial={false}>
@@ -62,9 +66,16 @@ export default function JoinRoom() {
           })}
         </AnimatePresence>
         {state.rooms.length === 0 ? (
-          <motion.p className="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            Belum ada room. Buat room sendiri atau tunggu pemain lain.
-          </motion.p>
+          <motion.div className="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <motion.span
+              className="empty-icon"
+              animate={{ scale: [1, 1.18, 1], opacity: [1, 0.55, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity }}
+            >
+              <Radio size={30} strokeWidth={2.5} />
+            </motion.span>
+            <p>Belum ada room. Buat room sendiri atau tunggu pemain lain.</p>
+          </motion.div>
         ) : null}
       </motion.div>
 

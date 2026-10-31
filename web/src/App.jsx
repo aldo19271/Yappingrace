@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import { useApp } from './store.jsx';
 import { Toast } from './components/ui.jsx';
+import { Backdrop } from './components/fx.jsx';
 import Landing from './screens/Landing.jsx';
 import Menu from './screens/Menu.jsx';
 import CreateRoom from './screens/CreateRoom.jsx';
@@ -39,6 +40,7 @@ export default function App() {
 
   return (
     <>
+      <Backdrop calm={screen === 'game'} />
       <AnimatePresence mode="wait" initial={false}>
         {views[screen] || views.menu}
       </AnimatePresence>

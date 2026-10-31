@@ -3,6 +3,25 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LogIn, UserPlus, User } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from '../components/ui.jsx';
+import { Marquee, Typewriter } from '../components/fx.jsx';
+
+const WORDS = ['ngetik', 'cepat', 'tim', 'serang', 'menang', 'kata', 'juara', 'sikat', 'kompak', 'lawan'];
+
+function Letters({ text, base = 0 }) {
+  return text.split('').map((ch, i) => (
+    <motion.span
+      key={i}
+      className="letter"
+      initial={{ y: -60, opacity: 0, rotate: -18 }}
+      animate={{ y: 0, opacity: 1, rotate: 0 }}
+      transition={{ type: 'spring', stiffness: 360, damping: 13, delay: base + i * 0.055 }}
+      whileHover={{ y: -8, rotate: 6 }}
+      whileTap={{ scale: 0.8 }}
+    >
+      {ch}
+    </motion.span>
+  ));
+}
 
 export default function Landing() {
   const { actions } = useApp();
@@ -31,17 +50,21 @@ export default function Landing() {
         <motion.div className="logo" variants={itemVariants}>
           <motion.span
             className="logo-mark"
-            animate={{ rotate: [0, -6, 6, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ rotate: [0, -8, 8, 0], y: [0, -5, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            whileTap={{ rotate: 360, scale: 1.2 }}
           >
             Y
           </motion.span>
           <h1>
-            Yapping<span>Race</span>
+            <Letters text="Yapping" base={0.15} />
+            <span className="accent">
+              <Letters text="Race" base={0.6} />
+            </span>
           </h1>
         </motion.div>
         <motion.p className="tagline" variants={itemVariants}>
-          Adu ketik tim lawan tim. Ketik lebih cepat, jatuhkan lawan.
+          <Typewriter text="Adu ketik tim lawan tim. Ketik lebih cepat, jatuhkan lawan." delay={900} />
         </motion.p>
 
         <AnimatePresence mode="wait" initial={false}>
@@ -49,34 +72,40 @@ export default function Landing() {
             <motion.div
               key="choose"
               className="stack"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -14 }}
-              transition={{ duration: 0.18 }}
+              variants={listVariants}
+              initial="initial"
+              animate="animate"
+              exit={{ opacity: 0, y: -14, transition: { duration: 0.15 } }}
             >
-              <Button icon={LogIn} onClick={() => setMode('login')}>
-                Masuk
-              </Button>
-              <Button variant="ghost" icon={UserPlus} onClick={() => setMode('register')}>
-                Buat akun
-              </Button>
-              <Button variant="quiet" icon={User} onClick={actions.playAsGuest}>
-                Main sebagai guest
-              </Button>
-              <p className="note center-text">
+              <motion.div variants={itemVariants}>
+                <Button icon={LogIn} onClick={() => setMode('login')}>
+                  Masuk
+                </Button>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Button variant="ghost" icon={UserPlus} onClick={() => setMode('register')}>
+                  Buat akun
+                </Button>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Button variant="quiet" icon={User} onClick={actions.playAsGuest}>
+                  Main sebagai guest
+                </Button>
+              </motion.div>
+              <motion.p className="note center-text" variants={itemVariants}>
                 Login bersifat opsional. Tanpa login kamu jadi guest: tidak dapat koin, tidak masuk leaderboard, dan
                 hanya memakai skin default.
-              </p>
+              </motion.p>
             </motion.div>
           ) : (
             <motion.form
               key="form"
               className="stack"
               onSubmit={submit}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -14 }}
-              transition={{ duration: 0.18 }}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, transition: { duration: 0.15 } }}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
             >
               <Field
                 label="Username"
@@ -98,8 +127,8 @@ export default function Landing() {
                 {error && (
                   <motion.p
                     className="error"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
+                    initial={{ opacity: 0, height: 0, x: 0 }}
+                    animate={{ opacity: 1, height: 'auto', x: [0, -8, 8, -5, 5, 0] }}
                     exit={{ opacity: 0, height: 0 }}
                   >
                     {error}
@@ -131,6 +160,7 @@ export default function Landing() {
           )}
         </AnimatePresence>
       </motion.div>
+      <Marquee words={WORDS} />
     </Screen>
   );
 }

@@ -1,25 +1,74 @@
-import { motion } from 'framer-motion';
-import { Coins, DoorOpen, LogOut, PlusSquare, ShoppingBag, Trophy, Lock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Coins, DoorOpen, LogOut, Lock, PlusSquare, ShoppingBag, Trophy } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import Avatar from '../components/Avatar.jsx';
+import { CountUp, Marquee, useRipple } from '../components/fx.jsx';
 import { Screen, itemVariants, listVariants } from '../components/ui.jsx';
 
-function Tile({ icon: Icon, title, sub, onClick, locked, accent }) {
+const TIPS = [
+  'Tap avatar musuh untuk memilih target serangan.',
+  'Kata salah berwarna merah. Hapus dulu sebelum spasi.',
+  'Spasi saat kata salah akan melewati kata tanpa damage.',
+  'Menang dapat 10 koin, kalah 5 koin.',
+  'Combo kata benar beruntun bikin kamu makin panas.',
+  'Keluar di tengah game dianggap kalah.',
+];
+
+const WORDS = ['ketik', 'serang', 'tim', 'cepat', 'menang', 'koin', 'skin', 'juara'];
+
+function Tip() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % TIPS.length), 4200);
+    return () => clearInterval(t);
+  }, []);
   return (
-    <motion.button
-      type="button"
-      variants={itemVariants}
-      className={`tile ${accent ? 'accent' : ''} ${locked ? 'locked' : ''}`}
-      onClick={onClick}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.97 }}
-    >
-      <span className="tile-icon">{locked ? <Lock size={22} strokeWidth={2.5} /> : <Icon size={24} strokeWidth={2.5} />}</span>
-      <span className="tile-text">
-        <strong>{title}</strong>
-        <small>{sub}</small>
-      </span>
-    </motion.button>
+    <div className="tip">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.p
+          key={i}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25 }}
+        >
+          {TIPS[i]}
+        </motion.p>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function Tile({ icon: Icon, title, sub, onClick, locked, accent, i }) {
+  const [down, ripples] = useRipple();
+  return (
+    <motion.div variants={itemVariants}>
+      <motion.button
+        type="button"
+        className={`tile ${accent ? 'accent' : ''} ${locked ? 'locked' : ''}`}
+        onClick={onClick}
+        onPointerDown={down}
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 3.2 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.35 }}
+        variants={{ hover: { y: -9, rotate: i % 2 ? 1.6 : -1.6, scale: 1.03 } }}
+        whileHover="hover"
+        whileTap={{ scale: 0.95 }}
+      >
+        {ripples}
+        <motion.span
+          className="tile-icon"
+          variants={{ hover: { rotate: [0, -14, 14, -8, 0], scale: 1.18 } }}
+          transition={{ duration: 0.5 }}
+        >
+          {locked ? <Lock size={22} strokeWidth={2.5} /> : <Icon size={24} strokeWidth={2.5} />}
+        </motion.span>
+        <span className="tile-text">
+          <strong>{title}</strong>
+          <small>{sub}</small>
+        </span>
+      </motion.button>
+    </motion.div>
   );
 }
 
@@ -34,29 +83,44 @@ export default function Menu() {
 
   return (
     <Screen>
-      <motion.header className="profile" initial={{ opacity: 0, y: -14 }} animate={{ opacity: 1, y: 0 }}>
-        <Avatar skin={skin} size={52} />
+      <motion.header
+        className="profile"
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 340, damping: 24 }}
+      >
+        <motion.div whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }} whileTap={{ y: -14 }}>
+          <Avatar skin={skin} size={52} />
+        </motion.div>
         <div className="profile-text">
-          <strong>{name}</strong>
+          <motion.strong key={name} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
+            {name}
+          </motion.strong>
           <small className={`conn ${conn}`}>
-            <i /> {conn === 'online' ? 'Terhubung' : conn === 'connecting' ? 'Menyalakan server...' : 'Terputus, mencoba lagi...'}
+            <i />{' '}
+            {conn === 'online' ? 'Terhubung' : conn === 'connecting' ? 'Menyalakan server...' : 'Terputus, mencoba lagi...'}
           </small>
         </div>
         {user ? (
-          <div className="coins">
-            <Coins size={18} strokeWidth={2.5} /> {user.coins}
-          </div>
+          <motion.div className="coins" whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92, rotate: -4 }}>
+            <motion.span animate={{ rotateY: [0, 360] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}>
+              <Coins size={18} strokeWidth={2.5} />
+            </motion.span>
+            <CountUp value={user.coins} />
+          </motion.div>
         ) : null}
       </motion.header>
 
       <motion.div className="tiles" variants={listVariants} initial="initial" animate="animate">
-        <Tile icon={PlusSquare} accent title="Create Room" sub="Buat room baru" onClick={() => actions.go('create')} />
-        <Tile icon={DoorOpen} title="Join Room" sub="Masuk ke room yang ada" onClick={() => actions.go('join')} />
-        <Tile icon={ShoppingBag} title="Shop" sub="Beli skin dengan koin" locked={!user} onClick={() => needLogin('shop')} />
-        <Tile icon={Trophy} title="Leaderboard" sub="Top 25 win dan koin" locked={!user} onClick={() => needLogin('leaderboard')} />
+        <Tile i={0} icon={PlusSquare} accent title="Create Room" sub="Buat room baru" onClick={() => actions.go('create')} />
+        <Tile i={1} icon={DoorOpen} title="Join Room" sub="Masuk ke room yang ada" onClick={() => actions.go('join')} />
+        <Tile i={2} icon={ShoppingBag} title="Shop" sub="Beli skin dengan koin" locked={!user} onClick={() => needLogin('shop')} />
+        <Tile i={3} icon={Trophy} title="Leaderboard" sub="Top 25 win dan koin" locked={!user} onClick={() => needLogin('leaderboard')} />
       </motion.div>
 
-      <motion.div className="foot" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+      <Tip />
+
+      <motion.div className="foot" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
         {conn !== 'online' ? (
           <p className="note">
             Server game gratis bisa butuh beberapa detik untuk menyala. Tunggu sampai status berubah menjadi Terhubung.
@@ -66,6 +130,7 @@ export default function Menu() {
           <LogOut size={16} strokeWidth={2.5} /> {user ? 'Keluar akun' : 'Kembali ke awal'}
         </button>
       </motion.div>
+      <Marquee words={WORDS} />
     </Screen>
   );
 }

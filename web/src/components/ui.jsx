@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Eye, EyeOff, Minus, Plus } from 'lucide-react';
 import { useApp } from '../store.jsx';
+import { useRipple } from './fx.jsx';
 
 const spring = { type: 'spring', stiffness: 500, damping: 30 };
 
@@ -34,19 +35,40 @@ export const itemVariants = {
 };
 
 // ---------------------------------------------------------------- tombol
-export function Button({ variant = 'primary', icon: Icon, loading = false, children, className = '', disabled, ...rest }) {
+export function Button({
+  variant = 'primary',
+  icon: Icon,
+  loading = false,
+  children,
+  className = '',
+  disabled,
+  onPointerDown,
+  ...rest
+}) {
   const off = disabled || loading;
+  const [down, ripples] = useRipple();
   return (
     <motion.button
       type="button"
-      whileHover={off ? undefined : { y: -2 }}
-      whileTap={off ? undefined : { scale: 0.96 }}
+      whileHover={off ? undefined : { y: -3, scale: 1.02 }}
+      whileTap={off ? undefined : { scale: 0.94 }}
       transition={spring}
       className={`btn btn-${variant} ${className}`}
       disabled={off}
+      onPointerDown={(e) => {
+        if (!off) down(e);
+        if (onPointerDown) onPointerDown(e);
+      }}
       {...rest}
     >
-      {loading ? <span className="spin" /> : Icon ? <Icon size={18} strokeWidth={2.5} /> : null}
+      {ripples}
+      {loading ? (
+        <span className="spin" />
+      ) : Icon ? (
+        <motion.span className="btn-icon" whileHover={{ rotate: [0, -14, 14, 0] }} transition={{ duration: 0.4 }}>
+          <Icon size={18} strokeWidth={2.5} />
+        </motion.span>
+      ) : null}
       {children}
     </motion.button>
   );
@@ -59,8 +81,8 @@ export function IconButton({ icon: Icon, label, onClick, className = '', ...rest
       aria-label={label}
       className={`icon-btn ${className}`}
       onClick={onClick}
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.12, rotate: -6 }}
+      whileTap={{ scale: 0.86 }}
       transition={spring}
       {...rest}
     >
@@ -252,6 +274,12 @@ export function HpBar({ hp, max, tone = 'ally' }) {
   const pct = Math.max(0, Math.min(100, (hp / max) * 100));
   return (
     <div className="hp">
+      <motion.div
+        className="hp-trail"
+        initial={false}
+        animate={{ width: `${pct}%` }}
+        transition={{ delay: 0.35, duration: 0.5, ease: 'easeOut' }}
+      />
       <motion.div
         className={`hp-fill ${tone}`}
         initial={false}

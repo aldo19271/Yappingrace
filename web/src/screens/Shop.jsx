@@ -4,6 +4,7 @@ import { Check, Coins } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import { api } from '../lib/api.js';
 import Avatar from '../components/Avatar.jsx';
+import { Burst, CountUp } from '../components/fx.jsx';
 import { Button, Screen, TopBar, itemVariants, listVariants } from '../components/ui.jsx';
 
 export default function Shop() {
@@ -12,6 +13,7 @@ export default function Shop() {
   const [skins, setSkins] = useState(null);
   const [pending, setPending] = useState('');
   const [err, setErr] = useState('');
+  const [burst, setBurst] = useState({});
 
   useEffect(() => {
     let alive = true;
@@ -35,6 +37,7 @@ export default function Shop() {
     try {
       const r = await fn();
       actions.setUser(r.user);
+      setBurst((b) => ({ ...b, [id]: Date.now() }));
       if (r.token) actions.refreshIdentity(r.token);
     } catch (e) {
       setErr(e.message);
@@ -54,8 +57,8 @@ export default function Shop() {
         right={
           <div className="coins">
             <Coins size={18} strokeWidth={2.5} />
-            <motion.span key={user.coins} initial={{ scale: 1.4 }} animate={{ scale: 1 }}>
-              {user.coins}
+            <motion.span key={user.coins} initial={{ scale: 1.5, y: -6 }} animate={{ scale: 1, y: 0 }}>
+              <CountUp value={user.coins} />
             </motion.span>
           </div>
         }
@@ -69,10 +72,17 @@ export default function Shop() {
           const equipped = user.skin === s.id;
           const afford = user.coins >= s.price;
           return (
-            <motion.div key={s.id} variants={itemVariants} className={`skin ${equipped ? 'equipped' : ''}`} whileHover={{ y: -4 }}>
-              <div className="skin-view">
+            <motion.div
+              key={s.id}
+              variants={itemVariants}
+              className={`skin ${equipped ? 'equipped' : ''}`}
+              whileHover={{ y: -6, rotate: -1.2 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              <motion.div className="skin-view" whileHover={{ scale: 1.1 }} animate={burst[s.id] ? { y: [0, -18, 0] } : {}} key={`v-${s.id}-${burst[s.id] || 0}`}>
                 <Avatar skin={s.id} size={92} />
-              </div>
+                <Burst fire={burst[s.id]} count={14} radius={70} />
+              </motion.div>
               <strong>{s.name}</strong>
               {owned ? (
                 equipped ? (
