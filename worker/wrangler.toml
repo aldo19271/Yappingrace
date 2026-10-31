@@ -21,9 +21,6 @@ new_sqlite_classes = ["Lobby", "Room"]
 API_URL = ""
 # Model Gemini. Cek nama model yang masih aktif di Google AI Studio jika kata tidak terbuat.
 GEMINI_MODEL = "gemini-3.5-flash-lite"
-GAME_SERVER_SECRET = "aldo123aldo123aldo123aldo123aldo123"
-GEMINI_API_KEY = "AQ.Ab8RN6LxNnjqCKhDNU3fjp-8zVyykUdqSXPsWJ4fB6J6vgY3pA"
-JWT_SECRET = "rehanrehanrehanrehanrehanrehan"
 # Opsional: batasi origin yang boleh konek, pisahkan koma. Contoh: https://yappingrace.vercel.app
 # Kosongkan untuk mengizinkan semua.
 ALLOWED_ORIGINS = ""
