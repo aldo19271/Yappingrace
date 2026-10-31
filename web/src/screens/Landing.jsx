@@ -93,8 +93,7 @@ export default function Landing() {
                 </Button>
               </motion.div>
               <motion.p className="note center-text" variants={itemVariants}>
-                Login bersifat opsional. Tanpa login kamu jadi guest: tidak dapat koin, tidak masuk leaderboard, dan
-                hanya memakai skin default.
+                Recommended Login/Buat Akun dulu ya deck biar data mu ke simpen.
               </motion.p>
             </motion.div>
           ) : (
