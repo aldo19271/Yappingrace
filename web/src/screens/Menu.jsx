@@ -7,12 +7,11 @@ import { CountUp, Marquee, useRipple } from '../components/fx.jsx';
 import { Screen, itemVariants, listVariants } from '../components/ui.jsx';
 
 const TIPS = [
-  'Tap avatar musuh untuk memilih target serangan.',
-  'Kata salah berwarna merah. Hapus dulu sebelum spasi.',
-  'Spasi saat kata salah akan melewati kata tanpa damage.',
-  'Menang dapat 10 koin, kalah 5 koin.',
-  'Combo kata benar beruntun bikin kamu makin panas.',
-  'Keluar di tengah game dianggap kalah.',
+  'Tips: Tap avatar musuh untuk memilih target serangan.',
+  'Tips: Kata salah berwarna merah. Hapus dulu sebelum spasi.',
+  'Tips: Spasi saat kata salah akan melewati kata tanpa damage.',
+  'Tips: Menang dapat 10 koin, kalah 5 koin.',
+  'Tips: Combo kata benar beruntun bikin kamu makin panas.',
 ];
 
 const WORDS = ['ketik', 'serang', 'tim', 'cepat', 'menang', 'koin', 'skin', 'juara'];
