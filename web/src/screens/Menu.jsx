@@ -15,7 +15,7 @@ const TIPS = [
   'Tips: Combo kata benar beruntun bikin kamu makin panas.',
 ];
 
-const WORDS = ['ketik', 'serang', 'tim', 'cepat', 'menang', 'koin', 'skin', 'juara'];
+const WORDS = ['ngetik', 'ngatos', 'temenan', 'opoyo', 'ez', 'mayan', 'by1', 'gampang'];
 
 function Tip() {
   const [i, setI] = useState(0);
