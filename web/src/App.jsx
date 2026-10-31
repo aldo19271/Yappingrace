@@ -10,6 +10,7 @@ import Shop from './screens/Shop.jsx';
 import Leaderboard from './screens/Leaderboard.jsx';
 import Room from './screens/Room.jsx';
 import Game from './screens/Game.jsx';
+import About from './screens/About.jsx';
 
 export default function App() {
   const { state } = useApp();
@@ -36,6 +37,7 @@ export default function App() {
     leaderboard: <Leaderboard key="leaderboard" />,
     room: <Room key="room" />,
     game: <Game key="game" />,
+    about: <About key="about" />,
   };
 
   return (

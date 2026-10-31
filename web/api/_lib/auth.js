@@ -1,6 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { SKINS, DEFAULT_SKIN } from '../../config/skins.js';
 
+/** Skin yang tidak dikenal (misalnya id lama di database) dianggap skin default. */
+export function normalizeSkin(id) {
+  return SKINS.some((s) => s.id === id) ? id : DEFAULT_SKIN;
+}
+
 function secret() {
   const s = process.env.JWT_SECRET;
   if (!s || s.length < 16) throw new Error('JWT_SECRET belum diisi (minimal 16 karakter).');
@@ -10,7 +15,7 @@ function secret() {
 /** Token login (dikirim ke browser, juga dibaca oleh server game). */
 export function signUser(row) {
   return jwt.sign(
-    { sub: row.id, name: row.username, skin: row.equipped_skin || DEFAULT_SKIN, typ: 'user' },
+    { sub: row.id, name: row.username, skin: normalizeSkin(row.equipped_skin), typ: 'user' },
     secret(),
     { expiresIn: '30d', algorithm: 'HS256' },
   );
@@ -42,7 +47,7 @@ export function publicUser(row, ownedSkins) {
     name: row.username,
     coins: row.coins,
     wins: row.wins,
-    skin: row.equipped_skin,
+    skin: normalizeSkin(row.equipped_skin),
     owned: SKINS.filter((s) => owned.has(s.id)).map((s) => s.id),
   };
 }

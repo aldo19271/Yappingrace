@@ -9,3 +9,7 @@
 // ============================================================
 
 export const LOGO_SRC = '/opoiki.png';
+
+// Ikon kecil di tab browser. Secara default mengikuti logo di atas.
+// Isi dengan file lain (misalnya '/favicon.png') atau null untuk memakai /favicon.svg bawaan.
+export const FAVICON_SRC = LOGO_SRC;

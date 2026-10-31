@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { animate, motion } from 'framer-motion';
 
 // Kumpulan efek gerak. Semua flat (tanpa glow/gradien), warna oranye-hitam.
@@ -20,8 +20,27 @@ export function Backdrop({ calm = false }) {
       })),
     [calm],
   );
+  const rootRef = useRef(null);
+  useEffect(() => {
+    let raf = 0;
+    const move = (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const el = rootRef.current;
+        if (!el) return;
+        el.style.setProperty('--px', ((e.clientX / window.innerWidth) * 2 - 1).toFixed(3));
+        el.style.setProperty('--py', ((e.clientY / window.innerHeight) * 2 - 1).toFixed(3));
+      });
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', move);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
   return (
-    <div className="backdrop-fx" aria-hidden="true">
+    <div className="backdrop-fx" ref={rootRef} aria-hidden="true">
       <span className="shape ring r1" />
       <span className="shape ring r2" />
       <span className="shape square s1" />
@@ -192,5 +211,55 @@ export function Marquee({ words }) {
         {row('b')}
       </div>
     </div>
+  );
+}
+
+/** Mahkota MVP yang retak lalu hancur (untuk MVP tim yang kalah). */
+export function BrokenCrown({ size = 16, delay = 0.9 }) {
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
+  const body = 'M3 17 L2 6 L8 11 L12 4 L16 11 L22 6 L21 17 Z M3 19 H21 V21 H3 Z';
+  const left = '0,0 12,0 10.5,7 13,12 10,24 0,24';
+  const right = '12,0 24,0 24,24 10,24 13,12 10.5,7';
+  const color = 'currentColor';
+  return (
+    <svg viewBox="0 0 24 28" width={size} height={size * 1.15} aria-hidden="true" style={{ overflow: 'visible' }}>
+      <defs>
+        <clipPath id={`l${uid}`}>
+          <polygon points={left} />
+        </clipPath>
+        <clipPath id={`r${uid}`}>
+          <polygon points={right} />
+        </clipPath>
+      </defs>
+      <motion.g
+        style={{ originX: 0.3, originY: 1 }}
+        initial={{ rotate: 0, x: 0, y: 0, opacity: 1 }}
+        animate={{ rotate: -26, x: -4, y: 5, opacity: 0.85 }}
+        transition={{ delay, type: 'spring', stiffness: 120, damping: 9 }}
+      >
+        <path d={body} fill={color} clipPath={`url(#l${uid})`} />
+      </motion.g>
+      <motion.g
+        style={{ originX: 0.7, originY: 1 }}
+        initial={{ rotate: 0, x: 0, y: 0, opacity: 1 }}
+        animate={{ rotate: 22, x: 4, y: 7, opacity: 0.85 }}
+        transition={{ delay: delay + 0.05, type: 'spring', stiffness: 120, damping: 9 }}
+      >
+        <path d={body} fill={color} clipPath={`url(#r${uid})`} />
+      </motion.g>
+      {[0, 1, 2].map((i) => (
+        <motion.rect
+          key={i}
+          x={8 + i * 4}
+          y={10}
+          width={2.2}
+          height={2.2}
+          fill={color}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 30, opacity: [0, 1, 0], x: (i - 1) * 5 }}
+          transition={{ delay: delay + 0.05 + i * 0.08, duration: 0.8 }}
+        />
+      ))}
+    </svg>
   );
 }

@@ -1,4 +1,5 @@
-export const DEFAULT_SKIN = 'stickman_hitam';
+// Id 'default' tidak ada di daftar skin web, sehingga tampilan otomatis memakai skin pertama di web/config/skins.js.
+export const DEFAULT_SKIN = 'default';
 
 const clamp = (v, min, max, fallback) => {
   const n = Math.round(Number(v));

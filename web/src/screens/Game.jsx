@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useAnimationControls } from 'framer-motion';
-import { Coins, Crosshair, Crown, LogOut, Trophy } from 'lucide-react';
+import { Coins, Crosshair, Crown, LogOut, Skull, Trophy } from 'lucide-react';
 import { useApp } from '../store.jsx';
 import { api } from '../lib/api.js';
 import Avatar from '../components/Avatar.jsx';
-import { Burst, Confetti, CountUp } from '../components/fx.jsx';
+import { BrokenCrown, Burst, Confetti, CountUp } from '../components/fx.jsx';
+import { playSound } from '../lib/sound.js';
 import { Button, HpBar } from '../components/ui.jsx';
 
 function PlayerCard({ p, g, enemy, isTarget, onPick }) {
@@ -64,11 +65,16 @@ function Result({ g, onBack, user }) {
   const myTeam = me ? me.team : 0;
   const won = r.winnerTeam !== null && r.winnerTeam === myTeam;
   const rows = (team) => r.players.filter((p) => p.team === team);
+
+  useEffect(() => {
+    playSound(won ? 'win' : 'lose');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <motion.div className="result" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {won ? <Confetti /> : null}
       <motion.div
-        className="result-card"
+        className={`result-card ${won ? '' : 'sombre'}`}
         initial={{ y: 60, scale: 0.9, opacity: 0, rotate: -2 }}
         animate={{ y: 0, scale: 1, opacity: 1, rotate: 0 }}
         transition={{ type: 'spring', stiffness: 280, damping: 18 }}
@@ -82,7 +88,16 @@ function Result({ g, onBack, user }) {
           >
             <Trophy size={44} strokeWidth={2.5} />
           </motion.div>
-        ) : null}
+        ) : (
+          <motion.div
+            className="trophy fallen"
+            initial={{ scale: 0, y: -30 }}
+            animate={{ scale: 1, y: 0, rotate: [0, -4, 4, 0] }}
+            transition={{ scale: { type: 'spring', stiffness: 260, damping: 14, delay: 0.2 }, rotate: { duration: 3, repeat: Infinity, delay: 1 } }}
+          >
+            <Skull size={44} strokeWidth={2.5} />
+          </motion.div>
+        )}
         <motion.h2
           className={won ? 'win' : 'lose'}
           initial={{ scale: 0.6, opacity: 0 }}
@@ -91,52 +106,67 @@ function Result({ g, onBack, user }) {
         >
           {r.winnerTeam === null ? 'Seri' : won ? 'Tim kamu menang' : 'Tim kamu kalah'}
         </motion.h2>
-        {[myTeam, myTeam === 1 ? 2 : 1].map((team) => (
-          <div className="result-team" key={team}>
-            <h4>
-              {team === myTeam ? 'Tim kamu' : 'Tim lawan'}
-              {r.winnerTeam === team ? ' - menang' : ''}
-            </h4>
-            {rows(team).map((p, i) => (
-              <motion.div
-                key={p.id}
-                className="result-row"
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ type: 'spring', stiffness: 360, damping: 22, delay: 0.3 + i * 0.09 }}
-              >
-                <Avatar skin={p.skin} size={34} bob={false} plate={false} />
-                <span className="result-name">
-                  {p.id === g.youId ? 'Kamu' : p.name}
-                  {p.left ? <small> (keluar)</small> : null}
-                </span>
-                {p.isMvp ? (
-                  <motion.span
-                    className="badge"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1, rotate: [0, -8, 8, 0] }}
-                    transition={{ delay: 0.8 + i * 0.09, type: 'spring', stiffness: 400, damping: 12 }}
-                  >
-                    <Crown size={13} strokeWidth={2.5} /> MVP
-                  </motion.span>
-                ) : null}
-                <span className="result-words">
-                  <CountUp value={p.words} /> kata
-                </span>
-                {p.coins > 0 ? (
-                  <motion.span
-                    className="result-coins"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1 + i * 0.09, type: 'spring', stiffness: 500, damping: 12 }}
-                  >
-                    <Coins size={14} strokeWidth={2.5} /> +{p.coins}
-                  </motion.span>
-                ) : null}
-              </motion.div>
-            ))}
-          </div>
-        ))}
+        {[myTeam, myTeam === 1 ? 2 : 1].map((team) => {
+          const lost = r.winnerTeam !== null && r.winnerTeam !== team;
+          return (
+            <div className={`result-team ${lost ? 'lost' : ''}`} key={team}>
+              <h4>
+                {team === myTeam ? 'Tim kamu' : 'Tim lawan'}
+                {r.winnerTeam === team ? ' - menang' : lost ? ' - gugur' : ''}
+              </h4>
+              {rows(team).map((p, i) => (
+                <motion.div
+                  key={p.id}
+                  className={`result-row ${lost ? 'fallen' : ''}`}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  whileHover={{ x: 4 }}
+                  transition={{ type: 'spring', stiffness: 360, damping: 22, delay: 0.3 + i * 0.09 }}
+                >
+                  <Avatar skin={p.skin} size={34} bob={false} plate={false} dead={lost} />
+                  <span className="result-name">
+                    {p.id === g.youId ? 'Kamu' : p.name}
+                    {p.left ? <small> (keluar)</small> : null}
+                  </span>
+                  {p.isMvp ? (
+                    lost ? (
+                      <motion.span
+                        className="badge fallen"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.7 + i * 0.09, type: 'spring', stiffness: 400, damping: 14 }}
+                      >
+                        <BrokenCrown size={14} delay={1.1 + i * 0.09} /> MVP
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        className="badge"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1, rotate: [0, -8, 8, 0] }}
+                        transition={{ delay: 0.8 + i * 0.09, type: 'spring', stiffness: 400, damping: 12 }}
+                      >
+                        <Crown size={13} strokeWidth={2.5} /> MVP
+                      </motion.span>
+                    )
+                  ) : null}
+                  <span className="result-words">
+                    <CountUp value={p.words} /> kata
+                  </span>
+                  {p.coins > 0 ? (
+                    <motion.span
+                      className="result-coins"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1 + i * 0.09, type: 'spring', stiffness: 500, damping: 12 }}
+                    >
+                      <Coins size={14} strokeWidth={2.5} /> +{p.coins}
+                    </motion.span>
+                  ) : null}
+                </motion.div>
+              ))}
+            </div>
+          );
+        })}
         {!user ? <p className="note center-text">Guest tidak mendapat koin dan tidak masuk leaderboard.</p> : null}
         <Button onClick={onBack}>Kembali ke room</Button>
       </motion.div>
@@ -183,6 +213,11 @@ export default function Game() {
         /* tidak didukung */
       }
     }
+  }, [g && g.hitSeq]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // suara saat KAMU menyerang
+  useEffect(() => {
+    if (g && g.lastHit && g.lastHit.from === g.youId) playSound('attack');
   }, [g && g.hitSeq]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // segarkan koin setelah hasil dicatat server

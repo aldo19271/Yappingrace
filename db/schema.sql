@@ -13,7 +13,7 @@ create table if not exists users (
   coins               integer not null default 0 check (coins >= 0),      -- saldo koin (berkurang saat beli skin)
   total_coins_earned  integer not null default 0 check (total_coins_earned >= 0), -- total koin yang pernah didapat (untuk leaderboard koin)
   wins                integer not null default 0 check (wins >= 0),
-  equipped_skin       text not null default 'stickman_hitam',
+  equipped_skin       text not null default 'default',
   created_at          timestamptz not null default now()
 );
 
