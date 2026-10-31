@@ -15,12 +15,7 @@
 export const DEFAULT_SKIN = 'stickman_hitam';
 
 export const SKINS = [
-  { id: 'stickman_hitam', name: 'Stickman Hitam', price: 0, look: 'stickman' },
-  { id: 'stickman_penyihir', name: 'Stickman Penyihir', price: 60, look: 'penyihir' },
-  { id: 'stickman_ksatria', name: 'Stickman Ksatria', price: 80, look: 'ksatria' },
-  { id: 'stickman_ninja', name: 'Stickman Ninja', price: 100, look: 'ninja' },
-  { id: 'robot_oranye', name: 'Robot Oranye', price: 150, look: 'robot' },
-  { id: 'astronot', name: 'Astronot', price: 200, look: 'astronot' },
+  { id: 'stickman_hitam', name: 'Mas Hitam', price: 0, look: 'stickman' },
   { id: 'Amongus_jir', name: 'Amongus', price: 420, image: '/skins/amongus1.png' },
   // Contoh skin dengan gambar sendiri (hapus tanda // untuk mengaktifkan):
   // { id: 'skin_saya', name: 'Skin Saya', price: 120, image: '/skins/skin_saya.png' },
