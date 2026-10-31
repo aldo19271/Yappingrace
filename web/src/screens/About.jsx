@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Camera, Code, Link as LinkIcon } from 'lucide-react';
 import { useApp } from '../store.jsx';
-import LogoMark from '../components/LogoMark.jsx';
+import LogoMark from '../components/logoabout.jsx';
 import { Typewriter, useRipple } from '../components/fx.jsx';
 import { Screen, TopBar, itemVariants, listVariants } from '../components/ui.jsx';
 import { ABOUT } from '../../config/about.js';
