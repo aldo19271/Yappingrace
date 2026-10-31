@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LogIn, UserPlus, User } from 'lucide-react';
 import { useApp } from '../store.jsx';
-import { Button, Field, Screen, itemVariants, listVariants } from '../components/ui.jsx';
+import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from '../components/ui.jsx';
 
 export default function Landing() {
   const { actions } = useApp();
@@ -86,9 +86,8 @@ export default function Landing() {
                 onChange={(e) => setUsername(e.target.value)}
                 hint={mode === 'register' ? '3-16 karakter: huruf, angka, underscore' : undefined}
               />
-              <Field
+              <PasswordField
                 label="Password"
-                type="password"
                 value={password}
                 maxLength={72}
                 autoComplete={mode === 'login' ? 'current-password' : 'new-password'}

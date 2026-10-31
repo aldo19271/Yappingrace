@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Hash, Lock, Users } from 'lucide-react';
 import { useApp } from '../store.jsx';
-import { Button, Field, Modal, Screen, TopBar, itemVariants, listVariants } from '../components/ui.jsx';
+import { Button, Field, Modal, PasswordField, Screen, TopBar, itemVariants, listVariants } from '../components/ui.jsx';
 
 export default function JoinRoom() {
   const { state, actions } = useApp();
@@ -91,9 +91,8 @@ export default function JoinRoom() {
       </Modal>
 
       <Modal open={!!prompt} onClose={actions.dismissPrompt} title="Room ini pakai password">
-        <Field
+        <PasswordField
           label="Password"
-          type="password"
           value={pw}
           autoFocus
           maxLength={20}

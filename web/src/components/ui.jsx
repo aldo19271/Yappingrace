@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Minus, Plus } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Minus, Plus } from 'lucide-react';
 import { useApp } from '../store.jsx';
 
 const spring = { type: 'spring', stiffness: 500, damping: 30 };
@@ -85,6 +85,29 @@ export function Field({ label, hint, className = '', ...input }) {
     <label className={`field ${className}`}>
       <span className="field-label">{label}</span>
       <input autoComplete="off" autoCapitalize="none" spellCheck={false} {...input} />
+      {hint ? <span className="field-hint">{hint}</span> : null}
+    </label>
+  );
+}
+
+export function PasswordField({ label, hint, className = '', ...input }) {
+  const [show, setShow] = useState(false);
+  return (
+    <label className={`field ${className}`}>
+      <span className="field-label">{label}</span>
+      <span className="input-wrap">
+        <input autoComplete="off" autoCapitalize="none" spellCheck={false} {...input} type={show ? 'text' : 'password'} />
+        <button
+          type="button"
+          className="eye"
+          aria-label={show ? 'Sembunyikan password' : 'Tampilkan password'}
+          aria-pressed={show}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => setShow((v) => !v)}
+        >
+          {show ? <EyeOff size={20} strokeWidth={2.5} /> : <Eye size={20} strokeWidth={2.5} />}
+        </button>
+      </span>
       {hint ? <span className="field-hint">{hint}</span> : null}
     </label>
   );
