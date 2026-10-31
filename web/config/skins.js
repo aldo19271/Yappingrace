@@ -15,7 +15,7 @@
 export const DEFAULT_SKIN = 'stickman_hitam';
 
 export const SKINS = [
-  { id: 'stickman_hitam', name: 'Mas Hitam', price: 0, look: 'stickman' },
+  { id: 'stickman_hitam', name: 'Mas Hitam', price: 0, image: 'hitam.png' },
   { id: 'Amongus_jir', name: 'Amongus', price: 420, image: '/skins/amongus1.png' },
   // Contoh skin dengan gambar sendiri (hapus tanda // untuk mengaktifkan):
   // { id: 'skin_saya', name: 'Skin Saya', price: 120, image: '/skins/skin_saya.png' },
