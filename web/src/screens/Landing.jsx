@@ -145,7 +145,7 @@ export default function Landing() {
                   setError('');
                 }}
               >
-                {mode === 'login' ? 'Belum punya akun? Daftar' : 'Sudah punya akun? Masuk'}
+                {mode === 'login' ? 'Blom punya akun? Daftar dulu bos' : 'Dah punya akun? Masuk sini lah bos'}
               </Button>
               <Button
                 variant="quiet"
