@@ -122,7 +122,7 @@ export default function Menu() {
       <motion.div className="foot" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
         {conn !== 'online' ? (
           <p className="note">
-            Server game gratis butuh beberapa detik untuk menyala. Tunggu sampai status berubah menjadi Terhubung.
+            Maklum Server gratisan tunggu beberapa detik buat nyala. Tunggu sampai status berubah menjadi Terhubung. Sabar ya bro 
           </p>
         ) : null}
         <button type="button" className="link" onClick={actions.logout}>
