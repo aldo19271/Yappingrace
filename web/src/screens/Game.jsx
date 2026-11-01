@@ -338,7 +338,7 @@ export default function Game() {
         <AnimatePresence mode="wait">
           {g.phase === 'loading' ? (
             <motion.p key="load" className="arena-msg" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              Menyiapkan kata dari Gemini
+              Menyiapkan kata dari AI
               <span className="dots" aria-hidden="true">
                 <i />
                 <i />
