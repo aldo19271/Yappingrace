@@ -9,13 +9,13 @@ export default async function handler(req, res) {
     if (!/^[A-Za-z0-9_]{3,16}$/.test(name)) return send(res, 400, { error: 'Nama tidak valid.' });
     const sql = getSql();
     const rows = await sql`
-      select username, wins, total_coins_earned, equipped_skin
+      select username, wins, coins, equipped_skin
       from users where lower(username) = lower(${name}) limit 1`;
     if (rows.length === 0) return send(res, 404, { error: 'Pemain tidak ditemukan.' });
     const u = rows[0];
     res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=30');
     return res.status(200).json({
-      profile: { name: u.username, wins: u.wins, coins: u.total_coins_earned, skin: normalizeSkin(u.equipped_skin) },
+      profile: { name: u.username, wins: u.wins, coins: u.coins, skin: normalizeSkin(u.equipped_skin) },
     });
   } catch (err) {
     return fail(res, err);
