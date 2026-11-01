@@ -71,20 +71,6 @@ Mainnya langsung dari browser, di HP maupun laptop. Tidak perlu install apa pun.
 
 Server game yang memegang semua aturan: kalimat, hitungan damage, dan hasil akhir. Browser hanya mengirim apa yang kamu ketik, jadi sulit dicurangi.
 
-## Struktur repo
-
-| Folder | Isi |
-| --- | --- |
-| `web/` | tampilan dan API (Vercel) |
-| `worker/` | server WebSocket game (Cloudflare) |
-| `db/` | skema dan migrasi database (Neon) |
-
-## Pasang sendiri
-
-Panduan lengkap untuk menjalankan versi sendiri ada di `PANDUAN_DEPLOY.md`.
-
-Rahasia seperti kunci Gemini, URL database, dan secret tidak disimpan di repo. Semuanya diisi di dashboard Vercel dan Cloudflare.
-
 ## Pembuat
 
 Dibuat oleh [aldo19271](https://github.com/aldo19271).
