@@ -2022,3 +2022,8 @@ p {
 .setting-text small {
   color: var(--dim);
 }
+
+/* ---- form akun di pengaturan */
+.account-form {
+  margin-top: 22px;
+}

@@ -9,6 +9,7 @@ create extension if not exists pgcrypto;
 create table if not exists users (
   id                  uuid primary key default gen_random_uuid(),
   username            text not null,
+  email               text,                                               -- Gmail (boleh kosong untuk akun lama), disimpan dalam bentuk baku
   password_hash       text not null,
   coins               integer not null default 0 check (coins >= 0),      -- saldo koin (berkurang saat beli skin)
   total_coins_earned  integer not null default 0 check (total_coins_earned >= 0), -- total koin yang pernah didapat (untuk leaderboard koin)
@@ -19,6 +20,18 @@ create table if not exists users (
 
 -- Username unik tanpa membedakan huruf besar/kecil
 create unique index if not exists users_username_lower_idx on users (lower(username));
+
+-- Gmail unik (akun lama yang belum punya Gmail dibiarkan kosong)
+create unique index if not exists users_email_idx on users (email) where email is not null;
+
+-- Kode verifikasi lupa password (maksimal satu kode aktif per akun)
+create table if not exists email_codes (
+  user_id     uuid primary key references users(id) on delete cascade,
+  code_hash   text not null,
+  expires_at  timestamptz not null,
+  attempts    smallint not null default 0,
+  sent_at     timestamptz not null default now()
+);
 
 -- Index leaderboard (top 25)
 create index if not exists users_wins_idx on users (wins desc);

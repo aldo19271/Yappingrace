@@ -5,6 +5,7 @@ import { useApp } from '../store.jsx';
 import { Button, Field, PasswordField, Screen, itemVariants, listVariants } from '../components/ui.jsx';
 import { Marquee, Typewriter } from '../components/fx.jsx';
 import LogoMark from '../components/LogoMark.jsx';
+import ForgotForm from '../components/ForgotForm.jsx';
 
 const WORDS = ['ngetik', 'kelasz', 'musuhan', 'by1', 'ez', 'yapping', 'booyah', 'sikat', 'tutor', 'empuk'];
 
@@ -28,6 +29,7 @@ export default function Landing() {
   const { actions } = useApp();
   const [mode, setMode] = useState(null); // null | 'login' | 'register'
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,7 +40,7 @@ export default function Landing() {
     setLoading(true);
     try {
       if (mode === 'login') await actions.login(username.trim(), password);
-      else await actions.register(username.trim(), password);
+      else await actions.register(username.trim(), email.trim(), password);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -97,6 +99,14 @@ export default function Landing() {
                 Recommended Login/Buat Akun dulu ya deck biar data mu ke simpen.
               </motion.p>
             </motion.div>
+          ) : mode === 'forgot' ? (
+            <ForgotForm
+              key="forgot"
+              onBack={() => {
+                setMode('login');
+                setError('');
+              }}
+            />
           ) : (
             <motion.form
               key="form"
@@ -115,6 +125,18 @@ export default function Landing() {
                 onChange={(e) => setUsername(e.target.value)}
                 hint={mode === 'register' ? '3-16 karakter: huruf, angka, underscore' : undefined}
               />
+              {mode === 'register' ? (
+                <Field
+                  label="Gmail"
+                  type="email"
+                  inputMode="email"
+                  value={email}
+                  maxLength={64}
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  hint="Dipakai untuk pemulihan akun, 1 Gmail hanya untuk 1 akun"
+                />
+              ) : null}
               <PasswordField
                 label="Password"
                 value={password}
@@ -135,9 +157,20 @@ export default function Landing() {
                   </motion.p>
                 )}
               </AnimatePresence>
-              <Button type="submit" loading={loading} disabled={!username || !password}>
+              <Button type="submit" loading={loading} disabled={!username || !password || (mode === 'register' && !email)}>
                 {mode === 'login' ? 'Masuk' : 'Daftar'}
               </Button>
+              {mode === 'login' ? (
+                <Button
+                  variant="quiet"
+                  onClick={() => {
+                    setMode('forgot');
+                    setError('');
+                  }}
+                >
+                  Lupa password?
+                </Button>
+              ) : null}
               <Button
                 variant="quiet"
                 onClick={() => {

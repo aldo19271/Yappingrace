@@ -92,7 +92,7 @@ function reducer(s, a) {
     case 'booted':
       return { ...s, booted: true, screen: a.screen || s.screen };
     case 'user':
-      return { ...s, user: a.user };
+      return { ...s, user: a.user && s.user ? { ...s.user, ...a.user } : a.user };
     case 'screen':
       return { ...s, screen: a.screen };
     case 'conn':
@@ -218,8 +218,14 @@ export function AppProvider({ children }) {
       async login(username, password) {
         applyAuth(await api.login(username, password));
       },
-      async register(username, password) {
-        applyAuth(await api.register(username, password));
+      async register(username, email, password) {
+        applyAuth(await api.register(username, email, password));
+      },
+      async updateAccount(body) {
+        const r = await api.updateAccount(body);
+        tokenStore.set(r.token);
+        dispatch({ type: 'user', user: r.user });
+        net().connectLobby(r.token);
       },
       playAsGuest: () => dispatch({ type: 'screen', screen: 'menu' }),
       logout() {

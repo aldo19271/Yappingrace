@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
     const sql = getSql();
     const rows = await sql`
-      select id, username, password_hash, coins, wins, equipped_skin
+      select id, username, email, password_hash, coins, wins, equipped_skin
       from users where lower(username) = lower(${username}) limit 1`;
     const row = rows[0];
     const ok = await bcrypt.compare(password, row ? row.password_hash : await getDummyHash());

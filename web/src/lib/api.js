@@ -49,7 +49,10 @@ async function request(path, { method = 'GET', body } = {}) {
 }
 
 export const api = {
-  register: (username, password) => request('/register', { method: 'POST', body: { username, password } }),
+  register: (username, email, password) => request('/register', { method: 'POST', body: { username, email, password } }),
+  forgotSend: (email) => request('/forgot', { method: 'POST', body: { action: 'send', email } }),
+  forgotReset: (body) => request('/forgot', { method: 'POST', body: { action: 'reset', ...body } }),
+  updateAccount: (body) => request('/account', { method: 'POST', body }),
   login: (username, password) => request('/login', { method: 'POST', body: { username, password } }),
   me: () => request('/me'),
   shop: () => request('/shop'),
