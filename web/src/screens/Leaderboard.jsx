@@ -81,8 +81,8 @@ export default function Leaderboard() {
         value={tab}
         onChange={setTab}
         tabs={[
-          { id: 'wins', label: 'Top Win' },
-          { id: 'coins', label: 'Top Koin' },
+          { id: 'wins', label: 'Top Global Win' },
+          { id: 'coins', label: 'Top Global Koin' },
         ]}
       />
       {err ? <p className="error">{err}</p> : null}
